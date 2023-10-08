@@ -71,9 +71,8 @@ export default {
       if (date) {
           d = new Date(date);
       }
+      let yesterday = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate() - 1, 22)).toISOString();
       let today = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), 22)).toISOString();
-      let tomorrow = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate() + 1, 22)).toISOString();
-      console.log(today, tomorrow)
       let impegni_req = {
         "mostraImpegniAnnullati":false,
         "mostraIndisponibilitaTotali":true,
@@ -82,8 +81,8 @@ export default {
         "pianificazioneTemplate":false,
         "auleIds": auleIds,
         "limitaRisultati":false,
-        "dataInizio": today,
-        "dataFine": tomorrow,
+        "dataInizio": yesterday,
+        "dataFine": today,
       }
       let impegni_resp = await fetch("https://apache.prod.up.cineca.it/api/Impegni/getImpegniCalendarioPubblico", {
       "credentials": "omit",
