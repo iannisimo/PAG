@@ -1,5 +1,5 @@
 <template>
-  <HeaderTop :title="title" :links="links" class="header"/>
+  <HeaderTop :title="title" :title-short="titleShort" :links="links" class="header"/>
   <div v-if="rows && events">
     <SchedulerTable :h_start="8" :h_end="20" :step="30" :rows="rows" :events="events" />
     <!-- <DivScheduler style="display: none" :h_start="8" :h_end="20" :step="30" :rows="rows" :events="events" /> -->
@@ -25,6 +25,7 @@ export default {
   data() {
     return {
       title: 'Poli con Aule Gestite',
+      titleShort: 'PAG',
       links: [
         { id: 1, url: 'https://unipi.prod.up.cineca.it/calendarioPubblico/linkCalendarioId=63223a029f080a0aab032afc ', label: 'Originale' },
       ],
