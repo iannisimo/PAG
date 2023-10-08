@@ -1,6 +1,14 @@
 <template>
-  <HeaderTop :title="title" :links="links" class="header"/>
-  <div v-if="rows && events">
+  <HeaderTop :title="title" :title-short="titleShort" :links="links" class="header"/>
+  <div class="vld-parent">
+    <loading :active="isLoading" 
+        can-cancel="false" 
+        is-full-page="true"
+        color="#043659"
+        loader="bars"
+        lock-scroll="true"></loading>
+  </div>
+  <div v-if="!isLoading">
     <SchedulerTable :h_start="8" :h_end="20" :step="30" :rows="rows" :events="events" />
     <!-- <DivScheduler style="display: none" :h_start="8" :h_end="20" :step="30" :rows="rows" :events="events" /> -->
   </div>
@@ -10,6 +18,10 @@
 import HeaderTop from './components/HeaderTop.vue'
 import SchedulerTable from './components/SchedulerTable.vue'
 
+
+// Import component
+import Loading from 'vue3-loading-overlay';
+import 'vue3-loading-overlay/dist/vue3-loading-overlay.css'
 // import DivScheduler from './components/DivScheduler.vue'
 
 export default {
@@ -18,6 +30,7 @@ export default {
     HeaderTop,
     SchedulerTable,
     // DivScheduler,
+    Loading,
   },
   created() {
     document.title = "PAG - Poli con Aule Gestite";
@@ -25,11 +38,13 @@ export default {
   data() {
     return {
       title: 'Poli con Aule Gestite',
+      titleShort: 'PAG',
       links: [
         { id: 1, url: 'https://unipi.prod.up.cineca.it/calendarioPubblico/linkCalendarioId=63223a029f080a0aab032afc ', label: 'Originale' },
       ],
       rows: null,
-      events: null
+      events: null,
+      isLoading: true,
     }
   },
   async mounted() {
@@ -71,9 +86,8 @@ export default {
       if (date) {
           d = new Date(date);
       }
+      let yesterday = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate() - 1, 22)).toISOString();
       let today = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), 22)).toISOString();
-      let tomorrow = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate() + 1, 22)).toISOString();
-      console.log(today, tomorrow)
       let impegni_req = {
         "mostraImpegniAnnullati":false,
         "mostraIndisponibilitaTotali":true,
@@ -82,8 +96,8 @@ export default {
         "pianificazioneTemplate":false,
         "auleIds": auleIds,
         "limitaRisultati":false,
-        "dataInizio": today,
-        "dataFine": tomorrow,
+        "dataInizio": yesterday,
+        "dataFine": today,
       }
       let impegni_resp = await fetch("https://apache.prod.up.cineca.it/api/Impegni/getImpegniCalendarioPubblico", {
       "credentials": "omit",
@@ -110,6 +124,7 @@ export default {
       this.rows = await this.fetchAule();
       let auleIds = this.rows.map(aula => aula.id);
       this.events = await this.fetchImpegni(auleIds);
+      this.isLoading = false;
     }
   }
 }

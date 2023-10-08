@@ -1,6 +1,6 @@
 <template>
     <header>
-        <h1>{{ title }}</h1>
+        <h1>{{ display_title }}</h1>
         <nav>
             <ul>
                 <datepicker v-model="picked"></datepicker>
@@ -25,6 +25,10 @@ export default {
             type: String,
             required: true
         },
+        titleShort: {
+            type: String,
+            required: true
+        },
         links: {
             type: Array,
             required: true
@@ -32,10 +36,18 @@ export default {
     },
     data() {
         return {
-            picked: null
+            picked: null,
+            display_title: this.title
         }
     },
     created() {
+        // Change title
+        let vw = window.innerWidth
+        if (vw < 767) {
+            this.display_title = this.titleShort;
+        } else {
+            this.display_title = this.title;
+        }
         // Get date from url
         const urlParams = new URLSearchParams(window.location.search);
         const date = urlParams.get('date');
