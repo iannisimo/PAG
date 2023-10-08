@@ -111,6 +111,13 @@ export default {
                 })
             }
         }
+        let now = new Date();
+        let nowCol = Math.round((now.getHours() * 60 + now.getMinutes()) / this.step) * this.step;
+        let cells = document.querySelectorAll(`[id$="${nowCol}"]`);
+        for (let i = 0; i < cells.length; i++) {
+            let cell = cells[i];
+            cell.classList.add('now');
+        }
     },
     methods: {
         formatTime(time) {
@@ -148,11 +155,9 @@ th {
     min-width: 75px;
     border-right: 1px dashed #000;
 }
-.event {
-    background-color: #ff0000;
-    color: #fff;
-    padding: 5px;
-    border-radius: 5px;
+.now {
+    border-left: 2px dashed red;
+    z-index: 6;
 }
 table tr th:first-child, .col-aule {
     width: 100px;
