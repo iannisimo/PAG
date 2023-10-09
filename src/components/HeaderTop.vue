@@ -4,9 +4,19 @@
         <nav>
             <ul>
                 <datepicker v-model="picked"></datepicker>
-                <li v-for="link in links" :key="link.id">
-                    <a :href="link.url">{{ link.label }}</a>
+                <li>
+                    <a href="https://unipi.prod.up.cineca.it/calendarioPubblico/linkCalendarioId=63223a029f080a0aab032afc">
+                        <img src='/icons/fa-uni.svg' class="nav-ico"/>
+                    </a>
                 </li>
+                <li>
+                    <a href="https://github.com/iannisimo/pag">
+                        <img src='/icons/fa-github.svg' class="nav-ico"/>
+                    </a>
+                </li>
+                <!-- <li v-for="link in links" :key="link.id">
+                    <a :href="link.url">{{ link.label }}</a>
+                </li> -->
             </ul>
         </nav>
     </header>
@@ -15,10 +25,13 @@
 <script>
 import datepicker from 'vue3-datepicker'
 
+/* import font awesome icon component */
+
+
 export default {
     name: 'HeaderTop',
     components: {
-        datepicker
+        datepicker,
     },
     props: {
         title: {
@@ -98,5 +111,11 @@ nav li {
 nav a {
     color: #fff;
     text-decoration: none;
+}
+.nav-ico {
+    width: 1.5rem;
+    height: 1.5rem;
+    /* I dunno why the fudge i cant download them in white */
+    filter: invert(100%);
 }
 </style>
