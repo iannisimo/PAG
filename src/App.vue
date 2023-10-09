@@ -2,11 +2,9 @@
   <HeaderTop :title="title" :title-short="titleShort" :links="links" class="header"/>
   <div class="vld-parent">
     <loading :active="isLoading" 
-        can-cancel="false" 
-        is-full-page="true"
         color="#043659"
         loader="bars"
-        lock-scroll="true"></loading>
+    ></loading>
   </div>
   <div v-if="!isLoading">
     <SchedulerTable :h_start="8" :h_end="20" :step="30" :rows="rows" :events="events" />
