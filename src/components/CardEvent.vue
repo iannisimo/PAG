@@ -1,11 +1,13 @@
 <template>
-    <div class="event-card">
-        <div class="course">
-            {{ course }}
-        </div>
-        <div class="profs">
-            <div v-for="prof in profs" :key="prof.id">
-                {{ prof['cognome'] }} {{ prof['nome'][0] }}.
+    <div class="event-container">
+        <div class="event-card">
+            <div class="course">
+                {{ course }}
+            </div>
+            <div class="profs">
+                <div v-for="prof in profs.slice(0,2)" :key="prof.id">
+                    {{ prof['cognome'] }} {{ prof['nome'][0] }}.
+                </div>
             </div>
         </div>
     </div>
@@ -15,23 +17,29 @@
 export default {
     name: 'CardEvent',
     props: {
-        course: {
-            type: String,
+        card_event: {
+            type: Object,
             required: true
         },
-        profs: {
-            type: Array,
-            required: true
-        },
+        // course: {
+        //     type: String,
+        //     required: true
+        // },
+        // profs: {
+        //     type: Array,
+        //     required: true
+        // },
         width: {
             type: String,
             required: true
         },
     }, 
-    default: {
-        course: 'test',
-        profs: ['test1', 'test2'],
-        width: '100px'
+    data() {
+        return {
+            course: this.card_event.nome,
+            profs: this.card_event.docenti,
+            // width: this.card_event.width
+        }
     },
     mounted() {
         this.$el.style.width = this.width;
@@ -40,6 +48,10 @@ export default {
 </script>
 
 <style>
+.event-container {
+    position: relative;
+    height: 100px;
+}
 .event-card {
     background-color: #cbcde6;
     border: 1px solid black;
@@ -49,9 +61,16 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 100px;
-    position: relative;
     z-index: 3;
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    transition: all .1s ease-out;
+}
+.event-card:hover {
+    background-color: #d6d7e9;
+
 }
 .course {
     font-weight: bold;

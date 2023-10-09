@@ -58,18 +58,6 @@ export default {
             required: true
         }
     },
-    default: {
-        h_start: 8,
-        h_end: 20,
-        step: 30,
-        rows: ["A1", "A2", "A3", "A4", "A5", "A6", "A7"],
-        events: [{
-            nome: "test",
-            data_inizio: "2023-10-05T12:00:00.000Z",
-            data_fine: "2023-10-05T14:00:00.000Z",
-            aule: ["A1"]
-        }]
-    },
     computed: {
         cols() {
             let cols = [];
@@ -104,8 +92,9 @@ export default {
                     el: cell,
                     component: CardEvent,
                     props: {
-                        course: event.nome,
-                        profs: event.docenti.slice(0,2),
+                        // course: event.nome,
+                        // profs: event.docenti.slice(0,2),
+                        card_event: event,
                         width: `${colspan*77}px`
                     }
                 })
