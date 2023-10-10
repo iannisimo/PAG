@@ -131,6 +131,7 @@ export default {
     align-items: center;
     justify-content: space-between;
     width: 100%;
+    gap: 10px;
 }
 
 .popper__content__info__professors {
