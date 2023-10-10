@@ -50,17 +50,12 @@ export default {
     data() {
         return {
             picked: null,
-            display_title: this.title
+            display_title: this.title,
         }
     },
-    created() {
+    mounted() {
         // Change title
-        let vw = window.innerWidth
-        if (vw < 767) {
-            this.display_title = this.titleShort;
-        } else {
-            this.display_title = this.title;
-        }
+        this.handleResize();
         // Get date from url
         const urlParams = new URLSearchParams(window.location.search);
         const date = urlParams.get('date');
@@ -68,6 +63,20 @@ export default {
             this.picked = new Date(date);
         } else {
             this.picked = new Date();
+        }
+        window.addEventListener('resize', this.handleResize);
+    },
+    unmounted() {
+        window.removeEventListener('resize', this.handleResize);
+    },
+    methods: {
+        handleResize() {
+            let vw = window.innerWidth
+            if (vw < 767) {
+                this.display_title = this.titleShort;
+            } else {
+                this.display_title = this.title;
+            }
         }
     },
     watch: {
@@ -93,6 +102,7 @@ header {
     background-color: #043659;
     color: #fff;
     top: 0;
+    z-index: 20;
     margin: 0;
 }
 h1 {
