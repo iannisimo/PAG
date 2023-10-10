@@ -4,9 +4,19 @@
         <nav>
             <ul>
                 <datepicker v-model="picked"></datepicker>
-                <li v-for="link in links" :key="link.id">
-                    <a :href="link.url">{{ link.label }}</a>
+                <li>
+                    <a href="https://unipi.prod.up.cineca.it/calendarioPubblico/linkCalendarioId=63223a029f080a0aab032afc">
+                        <img src='/icons/fa-uni.svg' class="nav-ico"/>
+                    </a>
                 </li>
+                <li>
+                    <a href="https://github.com/iannisimo/pag">
+                        <img src='/icons/fa-github.svg' class="nav-ico"/>
+                    </a>
+                </li>
+                <!-- <li v-for="link in links" :key="link.id">
+                    <a :href="link.url">{{ link.label }}</a>
+                </li> -->
             </ul>
         </nav>
     </header>
@@ -15,10 +25,13 @@
 <script>
 import datepicker from 'vue3-datepicker'
 
+/* import font awesome icon component */
+
+
 export default {
     name: 'HeaderTop',
     components: {
-        datepicker
+        datepicker,
     },
     props: {
         title: {
@@ -37,17 +50,12 @@ export default {
     data() {
         return {
             picked: null,
-            display_title: this.title
+            display_title: this.title,
         }
     },
-    created() {
+    mounted() {
         // Change title
-        let vw = window.innerWidth
-        if (vw < 767) {
-            this.display_title = this.titleShort;
-        } else {
-            this.display_title = this.title;
-        }
+        this.handleResize();
         // Get date from url
         const urlParams = new URLSearchParams(window.location.search);
         const date = urlParams.get('date');
@@ -55,6 +63,20 @@ export default {
             this.picked = new Date(date);
         } else {
             this.picked = new Date();
+        }
+        window.addEventListener('resize', this.handleResize);
+    },
+    unmounted() {
+        window.removeEventListener('resize', this.handleResize);
+    },
+    methods: {
+        handleResize() {
+            let vw = window.innerWidth
+            if (vw < 767) {
+                this.display_title = this.titleShort;
+            } else {
+                this.display_title = this.title;
+            }
         }
     },
     watch: {
@@ -80,6 +102,7 @@ header {
     background-color: #043659;
     color: #fff;
     top: 0;
+    z-index: 20;
     margin: 0;
 }
 h1 {
@@ -98,5 +121,11 @@ nav li {
 nav a {
     color: #fff;
     text-decoration: none;
+}
+.nav-ico {
+    width: 1.5rem;
+    height: 1.5rem;
+    /* I dunno why the fudge i cant download them in white */
+    filter: invert(100%);
 }
 </style>
