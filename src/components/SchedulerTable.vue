@@ -18,7 +18,8 @@
             <tbody>
                 <tr v-for="row in rows" :key="row.codice" :id="row.codice">
                     <th>
-                        {{ row.descrizione }}
+                        <!-- Also capitalize the first letter -->
+                        {{ capitalizeFirst(row.descrizione.replace('Fib ', '')) }}
                     </th>
                     <th v-for="col in cols" :key="col.id" :id="row.codice + '-' + col.id"></th>
                 </tr>
@@ -72,7 +73,7 @@ export default {
         },
         displayCols() {
             return this.cols.filter(col => col.id % 60 === 0);
-        }
+        },
     },
     mounted() {
         for (let i = 0; i < this.events.length; i++) {
@@ -114,6 +115,9 @@ export default {
             let minutes = time % 60;
             return `${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
         },
+        capitalizeFirst(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        },
     },
 };
 </script>
@@ -132,8 +136,8 @@ thead {
     top: 0;
 }
 tr {
-    height: 100px;
     border-bottom: 1px solid #000;
+    height: 2em;
 }
 table thead tr {
     height: 2em;
