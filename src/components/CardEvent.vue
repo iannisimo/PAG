@@ -1,6 +1,6 @@
 <template>
     <div class="event-container">
-        <Popper placement="bottom">
+        <Popper hover placement="top">
             <div class="event-card">
                 <div class="course">
                     {{ course }}
