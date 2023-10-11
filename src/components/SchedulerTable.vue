@@ -129,11 +129,8 @@ table {
 .table-container {
     width: 100%;
     max-width: 100%;
-    overflow-x: auto;
-}
-thead {
-    position: sticky;
-    top: 0;
+    overflow-x: scroll;
+    overflow-y: hidden;
 }
 tr {
     border-bottom: 1px solid #000;
