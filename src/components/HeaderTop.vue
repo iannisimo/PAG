@@ -35,7 +35,7 @@
     background-color: #043659;
     color: #fff;
     z-index: 20;
-    height: 8vh;
+    height: 6vh;
 }
 .header > div {
     display: flex;
@@ -46,12 +46,12 @@
     gap: 2vmin;
 }
 .header__left {
-    font-size: 4vh;
+    font-size: 3vh;
     font-weight: bold;
 }
 .nav-ico {
     width: auto;
-    height: 4vh;
+    height: 3vh;
     /* I dunno why the fudge i cant download them in white */
     filter: invert(100%);
 }
