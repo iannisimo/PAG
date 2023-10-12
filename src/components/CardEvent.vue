@@ -11,7 +11,8 @@
                     <div class="popper__arrow" data-popper-arrow></div>
                     <div class="popper__content">
                         <div class="popper__content__course">
-                            {{ course }}
+                            <span> {{ course }} </span>
+                            <span v-if="partition !== ''"> ({{ partition }}) </span>
                         </div>
                         <div class="popper__content__hours">
                             Orario {{ date2hour(dataInizio) }} - {{ date2hour(dataFine) }}
@@ -22,8 +23,8 @@
                                     {{ professor }}
                                 </span>
                             </div>
-                            <div class="popper__content__info__rooms">
-                                <span v-for="room in rooms" :key="room">
+                            <div class="popper__content__info__courses">
+                                <span v-for="room in courses" :key="room">
                                     {{ room }}
                                 </span>
                             </div>
@@ -70,12 +71,21 @@ export default {
             }
             return professors;
         },
-        rooms() {
-            let rooms = [];
-            for (let i = 0; i < this.card_event.aule.length; i++) {
-                rooms.push(this.card_event.aule[i].descrizione);
+        courses() {
+            let courses = [];
+            for (let i = 0; i < this.card_event.corsi.length; i++) {
+                courses.push(this.card_event.corsi[i].extCode);
             }
-            return rooms;
+            courses = courses.filter((v, i, a) => a.indexOf(v) === i);
+            return courses;
+        },
+        partition() {
+            const dd = this.card_event.evento.dettagliDidattici;
+            console.log(dd)
+            if (dd.length === 0) return '';
+            if ('partizione' in dd[0] === false) return '';
+            if (dd[0].partizione === null) return '';
+            return dd[0].partizione.descrizione;
         }
     },
     methods: {
@@ -94,6 +104,11 @@ export default {
     },
     mounted() {
         this.$el.style.width = this.width;
+        if (this.card_event.docenti.length > 0) {
+            if (this.card_event.docenti[0].cognome === 'FRANGIONI') {
+                console.log(this.card_event)
+            }
+        }
     }
 };
 </script>
@@ -141,7 +156,7 @@ export default {
     justify-content: center;
 }
 
-.popper__content__info__rooms {
+.popper__content__info__courses {
     display: flex;
     flex-direction: column;
     align-items: flex-end;

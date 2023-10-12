@@ -64,7 +64,7 @@ export default {
             let cols = [];
             let hstart = this.h_start * 60;
             let hend = this.h_end * 60;
-            for (let i = hstart; i <= hend; i+= this.step) {
+            for (let i = hstart; i < hend; i+= this.step) {
                 cols.push({
                     id: i,
                 });
@@ -76,12 +76,17 @@ export default {
         },
     },
     mounted() {
-        for (let i = 0; i < this.events.length; i++) {
-            let event = this.events[i];
+        const filtered_events = this.events.filter(event => {
+            let start = new Date(event.dataInizio).getHours()
+            let end = new Date(event.dataFine).getHours() + new Date(event.dataFine).getMinutes() * .01
+            return start >= this.h_start && end <= this.h_end
+        })
+        for (let i = 0; i < filtered_events.length; i++) {
+            let event = filtered_events[i];
             let start = new Date(event.dataInizio).getHours() * 60 + new Date(event.dataInizio).getMinutes();
             let end = new Date(event.dataFine).getHours() * 60 + new Date(event.dataFine).getMinutes();
             let duration = end - start;
-            let colspan = duration / this.step;
+            let colspan = Math.round(duration / this.step);
             let auleevento = event.aule;
             let col = start;
             col = Math.round(col / this.step) * this.step;
