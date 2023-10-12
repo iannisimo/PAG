@@ -4,7 +4,14 @@
     <loading :active="isLoading" 
         color="#043659"
         loader="bars"
-    ></loading>
+    >
+      <template #before>
+        <span class="vld-before"> {{ vld_message }} </span>
+      </template>
+      <template #after>
+        <span class="vld-after"> {{ vld_tip }} </span>
+      </template>
+    </loading>
   </div>
   <div v-if="!isLoading">
     <SchedulerTable :h_start="8" :h_end="20" :step="30" :rows="rows" :events="events" />
@@ -43,9 +50,31 @@ export default {
       rows: null,
       events: null,
       isLoading: true,
+      vld_message: "",
+      vld_tip: "",
     }
   },
   async mounted() {
+    let messages = [
+      "Lancio dei missili in corso",
+      "Attendere, il datacenter è in fiamme",
+      "Se non si vede nulla, è normale",
+      "Ancora un attimo, Cisternino ha rotto qualcosa",
+      "RUN!",
+      "Ti sei pers*",
+      "Non ho più idee",
+      "*messaggio divertente*",
+      "Ma chi ce l'ha fatto fare",
+      "Pausetta?",
+      "KAFFE!!1",
+      "Esci dalla Dev Console, questo non è un easter egg",
+    ];
+    let tips = [
+      "TIP: Premi su una cella per aprire i dettagli",
+    ];
+    messages.pop();
+    this.vld_message = messages[Math.floor(Math.random() * messages.length)];
+    this.vld_tip = tips[Math.floor(Math.random() * tips.length)];
     this.fetchData();
   },
   methods: {
@@ -136,6 +165,12 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 0px;
+}
+
+.vld-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 body {
