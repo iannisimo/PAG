@@ -91,19 +91,23 @@ export default {
             let col = start;
             col = Math.round(col / this.step) * this.step;
             for (let j = 0; j < auleevento.length; j++) {
-                let row = auleevento[j].codice;
-                let cell = document.getElementById(row + '-' + col);
-
-                renderComponent({
-                    el: cell,
-                    component: CardEvent,
-                    props: {
-                        // course: event.nome,
-                        // profs: event.docenti.slice(0,2),
-                        card_event: event,
-                        width: `${colspan*77}px`
-                    }
-                })
+                try {
+                    let row = auleevento[j].codice;
+                    let cell = document.getElementById(row + '-' + col);
+    
+                    renderComponent({
+                        el: cell,
+                        component: CardEvent,
+                        props: {
+                            // course: event.nome,
+                            // profs: event.docenti.slice(0,2),
+                            card_event: event,
+                            width: `${colspan*77}px`
+                        }
+                    })
+                } catch (e) {
+                    console.log("BABABIBU")
+                }
             }
         }
         let now = new Date();
