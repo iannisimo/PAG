@@ -81,7 +81,6 @@ export default {
         },
         partition() {
             const dd = this.card_event.evento.dettagliDidattici;
-            console.log(dd)
             if (dd.length === 0) return '';
             if ('partizione' in dd[0] === false) return '';
             if (dd[0].partizione === null) return '';
@@ -104,11 +103,6 @@ export default {
     },
     mounted() {
         this.$el.style.width = this.width;
-        if (this.card_event.docenti.length > 0) {
-            if (this.card_event.docenti[0].cognome === 'FRANGIONI') {
-                console.log(this.card_event)
-            }
-        }
     }
 };
 </script>
