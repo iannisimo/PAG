@@ -11,7 +11,12 @@
                     :auto-apply="true" 
                 >
                 <template #trigger>
-                    <img src='/icons/fa-calendar.svg' class="nav-ico"/>
+                    <div class="calendar-container">
+                        <img src='/icons/fa-calendar.svg' class="nav-ico"/>
+                        <div class="calendar-bubble">
+                            <span> {{ displayDayDate }} </span>
+                        </div>
+                    </div>
                 </template>
             </VueDatePicker>
         </div>
@@ -49,6 +54,29 @@
     font-size: 3vh;
     font-weight: bold;
 }
+
+.calendar-container {
+    position: relative;
+}
+
+.calendar-bubble {
+    position: absolute;
+    top: -1vh;
+    right: -1vh;
+    background-color: #f00;
+    border-radius: 50%;
+    width: 1.6vh;
+    height: 1.6vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.5vh;
+    padding: .3vh
+    
+}
+
 .nav-ico {
     width: auto;
     height: 3vh;
@@ -113,6 +141,16 @@ export default {
             } else {
                 this.display_title = this.title;
             }
+        }
+    },
+    computed: {
+        displayDayDate() {
+            // return the selected day of the month
+            if (this.picked == null) {
+                let d = new Date();
+                return d.getDate();
+            }
+            return this.picked.getDate();
         }
     },
     watch: {
